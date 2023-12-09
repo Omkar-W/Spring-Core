@@ -1,0 +1,110 @@
+1-> What is Spring? 
+==> 	1===>	(Developed by Rod Johnson in year 2003)
+	2===>	Spring is dependency injection java framework to make java application loosely coupled.(loosely coupled->we can easily make changes in application. where spring helps to innject dependency by himself. Spring provides IOC (Inversion of Controller) container.
+	3====>	Spring Framework makes the easy development of JavaEE application.
+	
+===================================================================================
+2-> What is Dependency Injection?
+==>     It is Design pattern by which we can develop java application.
+	
+	For example:- If there is one class Person1 in which we created an object with varible named Person2 and one method doWork(). If Person1 needs to do some work and needs help of Person2 then only he can complete the work i.e Person1 one is completely depend on Person2 which is also an class.
+
+			EXAMPLE 2 :  class Student{
+					int ID;
+					String Name;
+					Address address;
+					--------*** setID(ID){}, setName(Name){}, setAddress(address){} ***
+					--------*** Student(id,name,address){} -- CONSTRUCTOR 
+					-------}
+			***** Object of Address class in Student class .Spring IOC will first crate obj of address and set values of flatno, street, city and pinCode in runtime in container. It will also inject the values of ID, Name in that container at run time by creating student object *****
+				   class Address{
+					int flatNo;
+					String street;
+					String city;
+					int pinCode;
+					--------
+					--------}
+
+			********************  DEPENDENDENCY INJCTION CN BE DONE IN TWO WAYS  **************************
+
+			1- USING SETTER/PROPERTY INJECTION:- IOC calls all setter methods in class i.e setID(ID){} ...and so on to set values of object in container.
+			2- USING CONSTRUCTOR INJECTION:-     IOC calls constructor.
+
+
+
+			Previously with the help of JSP Servlet we create object of Person2 in Person1 with the help of new keyword. This makes the application tightly coupled.
+		Spring will himself create object of Person2 in Person at run time.
+This complete process is called as IOC. i.e controlled by Spring himself. So we dont have to worry about creating object.
+
+=======================================================================================================================================================
+3-> Spring and JEE
+==>       Steps:- 1) UI Layer(Controller -Simple java Class) which has capability to accept request.(Spring MVC module)
+		  2) Business/Service Layer- Where business logic gets executed which needs data.(Spring Security, Authentication Authorization Module, Transaction)
+		  3) Data Access layer -DAO class which contact Database.(Spring JDBC,Spring ORM-hibernate)
+		
+	  Example:  ProductController==>
+		    ProductService==> ProductDao dao=new ProductDao();(used only for small application. with the help of spring we dont have t create object of any dao class it wil automatically inject dao object in service layer class.) IOC controller will autmatically does tht inject work.
+
+=========================================================================================================================================================
+4-> Spring Modules
+==>         1) Spring core Modules:- a) Core b)beans c)context d) spEL (Spring Epression Language)
+					This module provides basic core fundamentals of Spring like Dependency Injection, IOC on which Spring framework is based.
+					core and beans(factory design pattern) plays vital role in injecting object, constructor injection, property injecction of one class in another.
+					Context module inherits all feature from bean module.JEE features.
+					SpEL-> Query and manipulate Object graph at runTime. We can put remove object value.
+
+	    2) Other Module:a) AOP( Aspect Oriented Programming), Aspect, Instrumentation, Messaging:- helps in decoupled of code to losley coupled.
+	    3) Data Integration Module:  JDBC,ORM,JMS,OXM==> provides JDBC Abstrction layer which removes the need of TDS JDBC code and passing database vendor specific error code to access database. ORM  integrate ORM tools like hibernate.
+	    4) WEB MODULES: Web, Servlet, Portlet, WebSocket: to build web application.
+	    5) Test modules: it provides testing features , integration testing.
+
+		WEB DEVELOPMENT: Spring Core and Web Module are important.
+
+========================================================================================================================================================= 
+5-> Spring IOC Container
+==>  		IT IS PRE-DEFINED PROGRAM WHICH MANAGES LIFECYCLE OF OBJECT.
+		  function: 1- creating object 2- hold object in memory 3- inject obj1 in obj2 as required.  Maintains the lifecycle of object.
+			   we only have to provide beans or pojo class to be managed by spring IOC container and also the xml configuration info i.e which beans/Object is dependent on which. and then application code will use the container.
+	
+		APPLICATION CONTEXT(Extends Bean Factory): This is an Interface.It helps in getting values of object from container. bt we cannot create object of interface so ther there subclass which re implemented by this interface.
+					1) ClasspathXMLApplicationCotext Class:- searches xml config in java class path (Mostly used)
+				    	2) AnnotationConfigApplicationContext:- searches beans on which we used annotation.
+					3) FileSystemXMLApplicationContext:-  searches config in file system.
+
+==========================================================================================================================================================
+6-> Configuration File
+==>      XML file:- To give infrmation of classes to IOC container about beans and their name, and on which they are depending on each other.
+			Where we declare beans and its dependency.
+			<beans>
+				<bean>
+				</bean>
+			</beans>
+
+==========================================================================================================================================================
+7-> Data Types( Dependencies)
+==>	1) Primitive Data Types
+			Byte,short,char,int,double,float,long,boolean
+	2) Collection type
+			List,Set,Map and properties
+	3) Rference type
+			Other class object
+			Address object injected in Student class which is created by us that is customised. This is rferenced type.
+
+==========================================================================================================================================================
+8-> Softwares:
+==> 	1:- IDE => Eclipse
+	2:- TomcatServer
+	3:- MySQL Database
+	4:- MySQL Workbench for mysql GUI
+	
+	STEPS==>
+		1:- Create MAVEN Project
+		2:- Adding Dependencies (SPRING CORE, SPRING CONTENT, SPRING WEB MVC)
+		3:- Creating beans => JAVA POJO Class
+		4:- Creating configuration file => config.xml
+		5:- Setting Injection/ Property Injection
+		6:- Main class :which can pull the object and use it.
+
+==========================================================================================================================================================
+
+==========================================================================================================================================================
