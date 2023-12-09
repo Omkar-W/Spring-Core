@@ -106,5 +106,109 @@ This complete process is called as IOC. i.e controlled by Spring himself. So we 
 		6:- Main class :which can pull the object and use it.
 
 ==========================================================================================================================================================
+9-> configuration==> config.xml       ---------> USING SETTER INJECTION METHOD <------------
 
+	<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+ xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:context="https://www.springframework.org/schema/context"
+ xmlns:p="http://www.springframework.org/schema/p"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans.xsd
+ https://www.springframework.org/schema/context
+ https://www.springframework.org/schema/context/spring-context.xsd">
+
+		*******************Primitive Data Type injection****************
+
+		// 1st way:- Value as Tag/Element
+		<bean class="com.springcore.****" name="****">
+			<property name="**property name**">
+				<value> **property value** </value>
+			</property>
+		</bean>
+
+		// 2nd Way:- Value as a attribute
+		<bean class="com.springcore.****" name="****">
+			<property name="**property name** value="**property value**"/>
+		</bean>
+
+		// 3rd Way:- Value Using p Schema
+		<bean class="com.springcore.****" name="****" p:StudentID="333" p:StudentName="Pratik" ...so on>
+		</bean>
+
+		********************Collection type Injection******************
+
+		<bean>    // Duplicates are allowed
+			<property name="">
+				<list>
+					<value>111</value>
+					<value>123</value>
+					<value>121</value>
+					<value>141</value>
+				</list>
+			</property>
+		</bean>
+		<bean>      //Duplicates not allowed
+			<property name="">
+				<set>
+					<value>111</value>
+					<value>123</value>
+					<value>121</value>
+					<value>141</value>
+				</set>
+			</property>
+		</bean>
+		<bean>		//Key Value Pair 
+			<property name="">
+				<map>
+					<entry key="101" value="Pratik"/>
+					<entry key="102" value="Orry"/>
+					<entry key="103" value="John"/>
+				</map>
+			</property>
+		</bean>
+
+		<bean>		//Property 
+			<property name="">
+				<props>
+					<prop key="101">Pratik</prop>
+					<prop key="102">Orry</prop>
+					<prop key="103">John</prop>
+				</prop>
+			</property>
+		</bean>
+
+			*************  Reference Type Injection  *************
+		<bean class="com.springcore.reference.Course" name="cref">
+ 			 <property name="CourseID" value="101"/>
+ 			 <property name="CourseName" value="CDAC"/>
+ 			 <property name="Coursefee" value="106000"/>
+ 		</bean>
+ 	
+ 		<bean class="com.springcore.reference.SecAStudent" name="sref">
+ 		<property name="RollNo">
+ 			<set>
+ 				<value>01</value>
+ 				<value>02</value>
+ 				<value>03</value>
+ 			</set>
+ 		</property>
+ 		<property name="Name">
+ 			<list>
+ 				<value>Digvijay</value>
+ 				<value>Mayank</value>
+ 				<value>Kharanshu</value>
+ 			</list>
+ 		</property>
+ 		<property name="courses">
+ 			<ref bean="cref"></ref>
+ 		</property>
+				<------ OR ------>
+		<property name="courses" ref="cref"></property>     --------> Value as Attribute <-------
+ 	</bean>
+
+</beans>
 ==========================================================================================================================================================
+10-> configuration==> config.xml       ---------> USING CONSTRUCTOR-ARGS INJECTION METHOD <------------
+==>    		
