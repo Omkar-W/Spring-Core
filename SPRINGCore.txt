@@ -1,6 +1,6 @@
 1-> What is Spring? 
 ==> 	1===>	(Developed by Rod Johnson in year 2003)
-	2===>	Spring is dependency injection java framework to make java application loosely coupled.(loosely coupled->we can easily make changes in application. where spring helps to innject dependency by himself. Spring provides IOC (Inversion of Controller) container.
+	2===>	Spring is dependency injection java framework to make java application loosely coupled.(loosely coupled->we can easily make changes in application. where spring helps to inject dependency by himself. Spring provides IOC (Inversion of Controller) container.
 	3====>	Spring Framework makes the easy development of JavaEE application.
 	
 ===================================================================================
@@ -16,7 +16,7 @@
 					--------*** setID(ID){}, setName(Name){}, setAddress(address){} ***
 					--------*** Student(id,name,address){} -- CONSTRUCTOR 
 					-------}
-			***** Object of Address class in Student class .Spring IOC will first crate obj of address and set values of flatno, street, city and pinCode in runtime in container. It will also inject the values of ID, Name in that container at run time by creating student object *****
+			***** Object of Address class in Student class .Spring IOC will first create object of address and set values of flatno, street, city and pinCode in runtime in container. It will also inject the values of ID, Name in that container at run time by creating student object *****
 				   class Address{
 					int flatNo;
 					String street;
@@ -51,7 +51,7 @@ This complete process is called as IOC. i.e controlled by Spring himself. So we 
 					This module provides basic core fundamentals of Spring like Dependency Injection, IOC on which Spring framework is based.
 					core and beans(factory design pattern) plays vital role in injecting object, constructor injection, property injecction of one class in another.
 					Context module inherits all feature from bean module.JEE features.
-					SpEL-> Query and manipulate Object graph at runTime. We can put remove object value.
+					SpEL-> Query and manipulate Object graph at runTime. We can put, remove object value.
 
 	    2) Other Module:a) AOP( Aspect Oriented Programming), Aspect, Instrumentation, Messaging:- helps in decoupled of code to losley coupled.
 	    3) Data Integration Module:  JDBC,ORM,JMS,OXM==> provides JDBC Abstrction layer which removes the need of TDS JDBC code and passing database vendor specific error code to access database. ORM  integrate ORM tools like hibernate.
@@ -66,15 +66,16 @@ This complete process is called as IOC. i.e controlled by Spring himself. So we 
 		  function: 1- creating object 2- hold object in memory 3- inject obj1 in obj2 as required.  Maintains the lifecycle of object.
 			   we only have to provide beans or pojo class to be managed by spring IOC container and also the xml configuration info i.e which beans/Object is dependent on which. and then application code will use the container.
 	
-		APPLICATION CONTEXT(Extends Bean Factory): This is an Interface.It helps in getting values of object from container. bt we cannot create object of interface so ther there subclass which re implemented by this interface.
+		APPLICATION CONTEXT(Extends Bean Factory): This is an Interface.It helps in getting values of object from container. bt we cannot create object of interface so ther there subclass which are implemented by this interface.
 					1) ClasspathXMLApplicationCotext Class:- searches xml config in java class path (Mostly used)
 				    	2) AnnotationConfigApplicationContext:- searches beans on which we used annotation.
 					3) FileSystemXMLApplicationContext:-  searches config in file system.
 
 ==========================================================================================================================================================
 6-> Configuration File
-==>      XML file:- To give infrmation of classes to IOC container about beans and their name, and on which they are depending on each other.
+==>      XML file:- To give information of classes to IOC container about beans and their name, and on which they are depending on each other.
 			Where we declare beans and its dependency.
+			CONFIG.XML file==>
 			<beans>
 				<bean>
 				</bean>
@@ -86,7 +87,7 @@ This complete process is called as IOC. i.e controlled by Spring himself. So we 
 			Byte,short,char,int,double,float,long,boolean
 	2) Collection type
 			List,Set,Map and properties
-	3) Rference type
+	3) Reference type
 			Other class object
 			Address object injected in Student class which is created by us that is customised. This is rferenced type.
 
@@ -212,3 +213,142 @@ This complete process is called as IOC. i.e controlled by Spring himself. So we 
 ==========================================================================================================================================================
 10-> configuration==> config.xml       ---------> USING CONSTRUCTOR-ARGS INJECTION METHOD <------------
 ==>    		
+ <bean class="com.springcore.constructor.FriendAdd" name="add">
+ 	<constructor-arg value="Chandni Chowk"/>
+ 	<constructor-arg value="Delhi"/>
+ </bean>
+ 
+ <bean class="com.springcore.constructor.Friend" name="friend">
+ 	<constructor-arg value="Lalit"/>
+ 	<constructor-arg value="789321654"/>
+ 	<constructor-arg ref="add"/>
+ </bean>
+
+===========================================================================================================================================================
+11->  Bean Life Cycle Method
+==>   		Spring provides two important methods to every bean.
+			1-> public void init() --> for initialization code. loading config, connecting with db, webserver etc.
+			2-> public void destory() --> for destroying. clean of code. to clean object or shut down the database after use.
+	We can change method name but cannot change signature.
+
+		Working:- IOC will be provided with Spring bean/ pojo class and configuration xml file. IOC will create object i.e object instantiate and 
+	will set the property/value to that object. Then it will call init method if written. opening of db,webserver etc. All methods will be called. Then it will 	call destroy method. i.e before destroying it will clean the object which were inizialised and used in methods.
+
+	Configuration Technique:-
+		1-> XML ==>
+		___________
+	==>> Pojo class
+			class shop{
+				private int ****;
+				private String ****;
+			**getter setter**{}
+			public void init() {
+			System.out.println("init method is being called");
+		}
+		
+		public void destroy() {
+			System.out.println("Destroy methd is being called ");
+		}
+
+	==>> config.xml
+			 <bean class="com.springcore.lifecycle.Shop" name="dukan" init-method="init" destroy-method="destroy">
+ 				<property name="ProductID" value="111"/>
+ 				<property name="ProductName" value="Laptop"/>
+ 			 </bean>
+	
+	==>> Main Method
+		AbstractApplicationContext shopcontext=new ClassPathXmlApplicationContext("ShopInitDes.xml");
+			Shop productinfo=(Shop) shopcontext.getBean("dukan");
+			System.out.println(productinfo);
+			shopcontext.registerShutdownHook();
+
+	2-> SPRING INTERFACE ==>   --Initializing Bean--    --Disposable Bean-- 
+	_______________________
+
+	class **** implements InitializingBean,DisposableBean{		
+			private ***  ***;
+			**getter setter**
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		System.out.println("this is init method");
+		
+	}
+	@Override
+	public void destroy() throws Exception {
+			System.out.println("This is destroy method");		
+	}
+
+	****CONFIG.XML FILE IS AS SAME AS VALUE USING ELEMENTS*****
+	
+
+		**********OUTPUT************
+				Setting product id: 
+				Setting Product name 
+				init method is being called
+				this is init method
+				Shop [ProductID=111, ProductName=Laptop]
+				--------------------------------------
+				Softdrink [DrinkName=Mirinda, Price=160]
+				This is destroy method
+				Destroy methd is being called 
+	
+
+	3-> ANNOTATION ==>
+	___________________
+				@PostConstruct (init functionality)--  @PreDestroy (destroy functionality)
+			<----- From java 11 this dependency is additionaly added ----->
+			<dependency>
+    				<groupId>javax.annotation</groupId>
+    				<artifactId>javax.annotation-api</artifactId>
+   				<version>1.3.2</version>
+			</dependency>
+
+		****Methods to be added in POJO CLASS****
+
+	@PostConstruct
+	public void start() {
+		System.out.println("Start method started");
+	}
+	
+	@PreDestroy
+	public void end() {
+		System.out.println("End method started");
+	}
+
+		1st way:--  ***in config.xml file add the tag ******
+			 <context:annotation-config/>
+			 <bean class="com.springcore.lifecycle.CarShowRoom" name="car">
+			 	<property name="CarId" value="121"/>
+			 	<property name="CarName" value="Maruti Suzuki"/>
+			 </bean>
+		
+		2nd Way:-- ***add in bean class="*****"  *****
+			Where ****= Press ctrl+T Type CommonAnnotationBeanPostProcessor and then copy the package and the class (CommonAnnotationBenPostProcessor)
+			<bean class="packageName.CommonAnnotationBeanPostProcessor/"
+
+======================================================================================================================================================================
+12=> AutoWiring in Spring
+==> 			Feature of Spring Framework in which spring container injects the dependencies automatically.
+		**DisAdvantages: It only works on Objects only not on Primitive data types.
+
+		**We dont have to do manually as <ref=""/> instead use Annotation which does wiring of reference automatically.	
+		1st Way 1)XML:--> a) by Name= searches by dependency name.
+				  b) by Type= by data type.
+				  c) by constructor= calls constructor.
+
+		2nd Way 1) Annotation--> only by using @Autowired
+			Advantages:- 1)Automatic object reference is selected 2) Less code to write.
+			Disadvantages:- 1) No control of programmer 2)It can't used on primitive data types and String.
+
+
+
+
+
+		
+			
+
+
+
+
+ 
